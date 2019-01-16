@@ -1,0 +1,72 @@
+{
+  "name": "@dether.io/detherjs",
+  "version": "4.1.22",
+  "description": "Dether SDK to easily call smart contract from Javascript",
+  "main": "lib/index.js",
+  "scripts": {
+    "example-airswap": "npm run babel-node -- examples/airswap.js",
+    "example-kyber": "npm run babel-node -- examples/kyber.js",
+    "babel-node": "babel-node --presets=latest",
+    "example": "npm run babel-node -- examples/usage.js",
+    "example-exchange": "npm run babel-node -- examples/exchange.js",
+    "exampletruffle": "npm run babel-node -- examples/exampletruffle.js",
+    "test": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.test.js test/specs/**/*.test.js --timeout 15000",
+    "test-onchain": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.onchain.js --timeout 0",
+    "prepublish": "babel src --out-dir lib --copy-files",
+    "build": "babel src --out-dir lib --copy-files ",
+    "esdoc": "./node_modules/.bin/esdoc",
+    "publish:esdoc": "gh-pages -d esdoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dethertech/dether.js.git"
+  },
+  "keywords": [
+    "Dether",
+    "ethereum",
+    "sdk"
+  ],
+  "author": "Dether Team <hello@dether.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dethertech/dether.js/issues"
+  },
+  "homepage": "https://github.com/dethertech/dether.js#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bignumber.js": "^7.2.1",
+    "dethercontract": "^3.6.0",
+    "ethers": "^3.0.8",
+    "for-async": "^1.0.1",
+    "fs": "0.0.1-security",
+    "isomorphic-ws": "^4.0.1",
+    "papaparse": "^4.3.7",
+    "simple-crypto-js": "^1.1.1",
+    "utf8": "^2.1.2",
+    "uuid": "^3.2.1",
+    "web3-eth-abi": "^1.0.0-beta.33",
+    "ws": "^5.2.0",
+    "xhr-request": "^1.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-preset-latest": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^5.0.1",
+    "esdoc": "^1.0.2",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.7.0",
+    "ethjs-provider-signer": "^0.1.4",
+    "ethjs-signer": "^0.1.1",
+    "gh-pages": "^1.0.0",
+    "mocha": "^3.5.3",
+    "nyc": "^11.3.0",
+    "sinon": "^4.0.2",
+    "web3": "^1.0.0-beta.34"
+  }
+}
