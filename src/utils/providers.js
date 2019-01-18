@@ -1,4 +1,4 @@
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 
 /**
  * Retrieve ethereum provider

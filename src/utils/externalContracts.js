@@ -1,6 +1,5 @@
-/* eslint-disable object-curly-newline, max-len, object-curly-newline */
-
-import Ethers from "ethers";
+/* eslint-disable object-curly-newline, max-len */
+import Ethers from "ethers-cordova";
 
 import erc20Json from "dethercontract/contracts/ERC20.json";
 import dthTokenAbi from "../abi/dthToken.json";
@@ -16,9 +15,7 @@ import dsProxyAbi from "../abi/dsProxy.json";
 // import oasisDirectProxyAbi from '../abi/oasisDirectProxy.json';
 import oasisProxyCreateExecuteAbi from "../abi/oasisProxyCreateExecute.json";
 import airswapExchangeAbi from "../abi/airswapExchange.json";
-
 import kyberNetworkProxyAbi from "../abi/kyberNetworkProxy.json";
-
 import { EXCHANGE_CONTRACTS, TICKER } from "../constants/appConstants";
 
 const erc20Abi = erc20Json.abi;
@@ -174,7 +171,6 @@ export const getAirsSwapExchangeContract = (
 //
 // KyberNetworkProxy
 //
-
 export const getKyberNetworkProxyContractAddr = provider =>
   getNetworkContractAddress(getChainId(provider), "kyberNetworkProxy");
 export const getKyberNetworkProxyContract = (

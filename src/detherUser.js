@@ -1,6 +1,6 @@
 /* eslint-disable max-len, no-multi-spaces, object-curly-newline, import/first */
 
-import Ethers from "ethers";
+import Ethers from "ethers-cordova";
 import web3Abi from "web3-eth-abi";
 
 const DetherJS = require("./index");
@@ -698,7 +698,7 @@ class DetherUser {
         gasPrice: opts.gasPrice
           ? Ethers.utils.bigNumberify(opts.gasPrice)
           : Ethers.utils.bigNumberify("20000000000"),
-        gasLimit: 130000
+        gasLimit: 100000
       });
       const tsx = await erc20.transfer(
         opts.receiverAddress,
@@ -714,7 +714,7 @@ class DetherUser {
         gasPrice: opts.gasPrice
           ? Ethers.utils.bigNumberify(opts.gasPrice)
           : Ethers.utils.bigNumberify("20000000000"),
-        gasLimit: 130000,
+        gasLimit: 100000,
         nonce
         // nonce: await this.dether.provider.getTransactionCount(wallet.address),
       });
@@ -794,7 +794,7 @@ class DetherUser {
    * @param {float}  opts.sellAmount sell value in ETH equivalent (18 decimal)
    * @param {float}  opts.buyAmount amount we get for selling sellAmount of sellToken,
    *                                we retrieve this from detherJs.getEstimation()
-   * @param {string} opts.buyRate buy rate returned by kyber contract getExpectedRate function
+   * @param {string} opts.buyRate buy rate returned by kyber contract getExpectedRate
    * @param {password} password
    * @return {string} tsx hash - transaction is mined
    */
@@ -808,7 +808,7 @@ class DetherUser {
     if (
       !["kovan", "mainnet", "rinkeby", "ropsten"].includes(this.dether.network)
     ) {
-      throw new TypeError("only works on kovan, ropsten, rinkeby and mainnet");
+      throw new TypeError("only works on kovan, rinkeby and mainnet");
     }
     // whitelist accepted trading pairs
     const acceptedPair = ALLOWED_EXCHANGE_PAIRS.some(pair => {

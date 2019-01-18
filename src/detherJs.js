@@ -1,5 +1,5 @@
 /* eslint-disable max-len, no-nested-ternary */
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 import xhr from 'xhr-request';
 
 import { add0x, isAddr, getMaxUint256Value } from './utils/eth';
@@ -210,6 +210,7 @@ async getAllBalance(address, ticker) {
     } catch (err) {
       throw new TypeError(`found no address for token: ${tick}`);
     }
+
     const erc20 = Contracts.getErc20Contract(this.provider, tokenAddress);
     result[tick] = Ethers.utils.formatEther((await erc20.balanceOf(address))); // eslint-disable-line no-await-in-loop
   }
@@ -368,7 +369,7 @@ async getTransactionStatus(hash) {
      * @param {string} opts.buyToken token we are buying
      * @param {float} opts.buyAmount buy value in ETH (18 decimal), ex 1.123 ETH, 3.12 DAI
      * @return {Object} .buyAmount is amount (in ETH format) we can buy of buyToken for sellAmount of sellToken
-     *                  .buyRate is buy rate kyber returned to us, we need to send this in exchangetokens when doing the kyber trade
+     * @return {uint|null} value in ETH equivalent OR null if cannot give estimation
      */
     async getEstimation({ sellToken, buyToken, sellAmount }) {
       if (!['kovan', 'mainnet', 'rinkeby', 'ropsten'].includes(this.network)) {
@@ -376,10 +377,11 @@ async getTransactionStatus(hash) {
       }
       // check if pair is one of the accepted trading pairs
       const acceptedPair = ALLOWED_EXCHANGE_PAIRS.some((pair) => {
-        const [sell, buy] = pair.pair.split('-');
+         const [sell, buy] = pair.pair.split('-');
         return (sell === sellToken && buy === buyToken)
           || (sell === buyToken && buy === sellToken);
       });
+      // console.log({ acceptedPair, sellToken, buyToken, ALLOWED_EXCHANGE_PAIRS });
       if (!acceptedPair) {
         throw new TypeError('Trading pair not implemented');
       }
@@ -445,49 +447,50 @@ async getTransactionStatus(hash) {
    * @param {string} opts.ticker - token to check if allowance is set
    * @return {bool} TRUE if allowance is set, FALSE if allowance is not set
    */
-  async hasAirswapAllowance({ethAddress, ticker}) {
+  async hasAirswapAllowance({ ethAddress, ticker }) {
     const tokenAddress = ExternalContracts.getTokenContractAddr(this.provider, ticker);
     const erc20 = Contracts.getErc20Contract(this.provider, tokenAddress);
-    const airswapAddr = ExternalContracts.getAirsSwapExchangeContractAddr(this.provider)
+    const airswapAddr = ExternalContracts.getAirsSwapExchangeContractAddr(this.provider);
     const allowance = await erc20.allowance(ethAddress, airswapAddr);
     return allowance.gt(getMaxUint256Value().div(2));
   }
 
   /**
-   * Get available amount of eth a given address can sell today
-   * @param {Object} opts
-   * @param {string} opts.ethAddress - address tof the user
-   * @param {string} opts.ticker - token to check if allowance is set
-   * @return {bool} TRUE if allowance is set, FALSE if allowance is not set
-   */
-  async hasKyberAllowance({ethAddress, ticker }) {
+ * Get available amount of eth a given address can sell today
+ * @param {Object} opts
+ * @param {string} opts.ethAddress - address tof the user
+ * @param {string} opts.ticker - token to check if allowance is set
+ * @return {bool} TRUE if allowance is set, FALSE if allowance is not set
+ */
+  async hasKyberAllowance({ ethAddress, ticker }) {
     const tokenAddress = ExternalContracts.getTokenContractAddr(this.provider, ticker);
     const erc20 = Contracts.getErc20Contract(this.provider, tokenAddress);
-    const kyberAddr = ExternalContracts.getKyberNetworkProxyContractAddr(this.provider)
+    const kyberAddr = ExternalContracts.getKyberNetworkProxyContractAddr(this.provider);
     const allowance = await erc20.allowance(ethAddress, kyberAddr);
     return allowance.gt(getMaxUint256Value().div(2));
   }
 
   /**
-  * Get available amount of eth a given address can sell today
-  * @param {Object} opts
-  * @param {string} opts.ethAddress - address tof the user
-  * @param {string} opts.ticker - token to check if allowance is set
-  * @return {bool} TRUE if allowance is set, FALSE if allowance is not set
-  */
-   async hasNotNeededAllowance({ ethAddress, ticker }) {
-     const tokenAddress = ExternalContracts.getTokenContractAddr(this.provider, ticker);
-      const result = ALLOWED_EXCHANGE_PAIRS.find((pair) => {
-       const [sell, buy] = pair.pair.split('-');
-       return (buy === ticker);
-     });
-     if (result.exchange != 'airswap') return true;
-     const erc20 = Contracts.getErc20Contract(this.provider, tokenAddress);
-     const airswapAddr = ExternalContracts.getAirsSwapExchangeContractAddr(this.provider);
-     const allowance = await erc20.allowance(ethAddress, airswapAddr);
-     return allowance.gt(getMaxUint256Value().div(2));
-   }
+ * Get available amount of eth a given address can sell today
+ * @param {Object} opts
+ * @param {string} opts.ethAddress - address tof the user
+ * @param {string} opts.ticker - token to check if allowance is set
+ * @return {bool} TRUE if allowance is set, FALSE if allowance is not set
+ */
+  async hasNotNeededAllowance({ ethAddress, ticker }) {
+    const tokenAddress = ExternalContracts.getTokenContractAddr(this.provider, ticker);
 
+    const result = ALLOWED_EXCHANGE_PAIRS.find((pair) => {
+      const [sell, buy] = pair.pair.split('-');
+      return (buy === ticker);
+    });
+    console.log('result => ', result, result.exchange);
+    if (result.exchange != 'airswap') return true;
+    const erc20 = Contracts.getErc20Contract(this.provider, tokenAddress);
+    const airswapAddr = ExternalContracts.getAirsSwapExchangeContractAddr(this.provider);
+    const allowance = await erc20.allowance(ethAddress, airswapAddr);
+    return allowance.gt(getMaxUint256Value().div(2));
+  }
 }
 
 DetherJS.Ethers = Ethers;

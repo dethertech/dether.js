@@ -1,4 +1,4 @@
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 import utf8 from 'utf8';
 
 /**

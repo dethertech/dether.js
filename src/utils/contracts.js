@@ -1,4 +1,4 @@
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 
 import DetherCoreJson from 'dethercontract/contracts/DetherCore.json';
 import SmsCertifierJson from 'dethercontract/contracts/SmsCertifier.json';

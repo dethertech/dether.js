@@ -1,4 +1,4 @@
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 
 import { COORD_PRECISION } from '../constants/appConstants';
 import { toUtf8 } from './eth';

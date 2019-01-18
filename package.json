@@ -1,11 +1,10 @@
 {
-  "name": "@dether.io/detherjs",
+  "name": "@dether.io/detherjs-cordova",
   "version": "4.1.22",
   "description": "Dether SDK to easily call smart contract from Javascript",
   "main": "lib/index.js",
   "scripts": {
     "example-airswap": "npm run babel-node -- examples/airswap.js",
-    "example-kyber": "npm run babel-node -- examples/kyber.js",
     "babel-node": "babel-node --presets=latest",
     "example": "npm run babel-node -- examples/usage.js",
     "example-exchange": "npm run babel-node -- examples/exchange.js",
@@ -36,7 +35,7 @@
     "babel-polyfill": "^6.26.0",
     "bignumber.js": "^7.2.1",
     "dethercontract": "^3.6.0",
-    "ethers": "^3.0.8",
+    "ethers-cordova": "^1.0.4",
     "for-async": "^1.0.1",
     "fs": "0.0.1-security",
     "isomorphic-ws": "^4.0.1",

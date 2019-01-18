@@ -1,7 +1,7 @@
 /* eslint-disable max-len, object-curly-newline, padded-blocks, function-paren-newline */
 import uuid from 'uuid';
 import WebSocket from 'isomorphic-ws';
-import Ethers from 'ethers';
+import Ethers from 'ethers-cordova';
 import BigNumber from 'bignumber.js';
 import xhr from 'xhr-request';
 
@@ -234,8 +234,9 @@ const sellERC20ForEth = async (wallet, sellToken, gasPrice, signedOrder, nonce) 
   if (!nonce) {
     nonce = await wallet.provider.getTransactionCount(wallet.address);
   }
+  let fillTsx;
   if (signedOrder.sig) {
-    await airswapExchange.functions['fill(address,uint256,address,address,uint256,address,uint256,uint256,uint8,bytes32,bytes32)'](
+    fillTsx = await airswapExchange.functions['fill(address,uint256,address,address,uint256,address,uint256,uint256,uint8,bytes32,bytes32)'](
       signedOrder.makerAddress,
       Ethers.utils.bigNumberify(signedOrder.makerAmount),
       signedOrder.makerToken,
@@ -249,7 +250,7 @@ const sellERC20ForEth = async (wallet, sellToken, gasPrice, signedOrder, nonce) 
       signedOrder.sig.s,
     );
   } else {
-    await airswapExchange.functions['fill(address,uint256,address,address,uint256,address,uint256,uint256,uint8,bytes32,bytes32)'](
+    fillTsx = await airswapExchange.functions['fill(address,uint256,address,address,uint256,address,uint256,uint256,uint8,bytes32,bytes32)'](
       signedOrder.makerAddress,
       Ethers.utils.bigNumberify(signedOrder.makerAmount),
       signedOrder.makerToken,
@@ -372,7 +373,6 @@ const preparePayload = data => (
 const setAllowanceIfNeeded = async (wallet, sellToken, gasPrice, allowanceRecipient) => {
   const payToken = getTokenContract(wallet, sellToken, gasPrice);
   const allowance = await payToken.allowance(wallet.address, allowanceRecipient);
-
   // if allowance has decreased bewlo half of max uint256 value, re-set allownace to max uint256
   if (allowance.lt(getMaxUint256Value().div(2))) {
     console.log('found no set allowance, gonna set it');
@@ -398,8 +398,7 @@ export const getExchangeType = (sellToken, buyToken) => {
   });
   return result.exchange;
 };
-
-const exchangeTokensKyber = async ({ wallet, sellToken, sellAmount, buyToken, gasPrice, buyRate }) => { // eslint-disable-line
+ const exchangeTokensKyber = async ({ wallet, sellToken, sellAmount, buyToken, gasPrice, buyRate }) => { // eslint-disable-line
   const sellAmountWei = toWei(sellAmount);
   if (sellToken === 'ETH') {
     const buyTokenAddr = getTokenContractAddr(wallet.provider, buyToken);
@@ -426,14 +425,15 @@ const exchangeTokensKyber = async ({ wallet, sellToken, sellAmount, buyToken, ga
  * @param {Wallet} opts.wallet - unlocked wallet of the user
  * @return {Object} receipt of the exchange transaction
  */
-export const exchangeTokens = ({ wallet, sellToken, sellAmount, buyToken, buyAmount, gasPrice, buyRate }) => new Promise((resolve, reject) => { // eslint-disable-line
-  const exchangeType = getExchangeType(sellToken, buyToken);
-  if (exchangeType === 'kyber') {
-    if (!buyRate) {
-      return reject(new Error('missing buyRate argument'));
-    }
-    return exchangeTokensKyber({ wallet, sellToken, sellAmount, buyToken, buyAmount, gasPrice, buyRate }).then(resolve).catch(reject);
-  }
+
+ export const exchangeTokens = ({ wallet, sellToken, sellAmount, buyToken, buyAmount, gasPrice, buyRate }) => new Promise((resolve, reject) => { // eslint-disable-line
+   const exchangeType = getExchangeType(sellToken, buyToken);
+   if (exchangeType === 'kyber') {
+     if (!buyRate) {
+       return reject(new Error('missing buyRate argument'));
+     }
+     return exchangeTokensKyber({ wallet, sellToken, sellAmount, buyToken, buyAmount, gasPrice, buyRate }).then(resolve).catch(reject);
+   }
   const INDEXER_ADDRESS = '0x0000000000000000000000000000000000000000';
   const AIRSWAP_WS_TIMEOUT = 5000; // 5 seconds
   const networkName = getNetworkName(getChainId(wallet.provider));
@@ -566,8 +566,7 @@ export const exchangeTokens = ({ wallet, sellToken, sellAmount, buyToken, buyAmo
           // we need to approve the AirSwap contract to transfer ERC20 sellToken on behalf of the user
           if (sellToken !== 'ETH') {
             console.log('starting allowance check');
-            setAllowanceIfNeeded(wallet, sellToken, gasPrice, getAirsSwapExchangeContractAddr(wallet.provider)).then((tsxCount_) => {
-              // need to pass to-be-set nonce into fill() and withdraw()
+            setAllowanceIfNeeded(wallet, sellToken, gasPrice, getAirsSwapExchangeContractAddr(wallet.provider)).then((tsxCount_) => { // need to pass to-be-set nonce into fill() and withdraw()
               tsxCount = tsxCount_;
               state = AirswapStates.RcvGetOrderRes;
               currentTimeout = setTimeout(() => {

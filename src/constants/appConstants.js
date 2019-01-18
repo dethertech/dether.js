@@ -71,7 +71,7 @@ export const TICKER = {
     DROP: "0x4672bad527107471cb5067a887f4656d585a8a31",
     DGTX: "0x1c83501478f1320977047008496dacbd60bb15ef",
     PAY: "0xB97048628DB6B661D4C2aA833e95Dbe1A905B280",
-    SWT: "0xb9e7f8568e08d5659f5d29c4997173d84cdf2607",
+    SWT: "0xB9e7F8568e08d5659f5D29C4997173d84CdF2607",
     KNC: "0xdd974D5C2e2928deA5F71b9825b8b646686BD200"
   }
 };
@@ -95,7 +95,7 @@ export const ALLOWED_EXCHANGE_PAIRS = [
   { pair: "ETH-MANA", exchange: "kyber" },
   { pair: "ETH-ELF", exchange: "kyber" },
   { pair: "ETH-POLY", exchange: "kyber" },
-  { pair: "ETH-PAY", exchange: "kyber" },
+  { pair: "ETH-LINK", exchange: "kyber" },
   { pair: "ETH-KNC", exchange: "kyber" }
 ];
 
