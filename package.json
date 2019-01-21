@@ -1,6 +1,6 @@
 {
-  "name": "@dether.io/detherjs",
-  "version": "4.1.22",
+  "name": "detherjs",
+  "version": "4.1.23",
   "description": "Dether SDK to easily call smart contract from Javascript",
   "main": "lib/index.js",
   "scripts": {
