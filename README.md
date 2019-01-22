@@ -33,7 +33,7 @@ yarn add detherjs
 
 ## Docs
 
-Extensive documentation of all the methods can be found on the [API documentation](https://dethertech.github.io/dether.js)
+Extensive documentation of the principal methods can be found on the [API documentation](https://dethertech.github.io/dether.js)
 
 ## Usage
 
