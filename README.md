@@ -3,6 +3,10 @@
 DetherJS is Javascript SDK to easily interact with [DetherContracts](https://github.com/dethertech/detherContracts)
 
 It provides wrappers for all the public methods of the contract and formats values in and out.
+All infos about ETH/Tokens buyers/sellers are stored inside the smart contracts and easily accessible with this library.
+You can as well easily modify as well the states of the dether smart contract.
+This library interact with the current version of [DetherContracts](https://github.com/dethertech/detherContracts) deployed on:  
+[Mainnet](https://etherscan.io/address/0x876617584678d5b9a6ef93eba92b408367d9457c#code)
 
 ## Table of Contents
 
