@@ -112,4 +112,4 @@ When you find issues, please report them:
 
 ## TODO
 
-- Add more tests
+- Add more example: with geocoding API, certify API

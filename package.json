@@ -4,12 +4,8 @@
   "description": "Dether SDK to easily call smart contract from Javascript",
   "main": "lib/index.js",
   "scripts": {
-    "example-airswap": "npm run babel-node -- examples/airswap.js",
-    "example-kyber": "npm run babel-node -- examples/kyber.js",
     "babel-node": "babel-node --presets=latest",
-    "example": "npm run babel-node -- examples/usage.js",
-    "example-exchange": "npm run babel-node -- examples/exchange.js",
-    "exampletruffle": "npm run babel-node -- examples/exampletruffle.js",
+    "example1": "npm run babel-node -- examples/getInfoFromZone.js",
     "test": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.test.js test/specs/**/*.test.js --timeout 15000",
     "test-onchain": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.onchain.js --timeout 0",
     "prepublish": "babel src --out-dir lib --copy-files",
