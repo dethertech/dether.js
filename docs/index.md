@@ -75,7 +75,7 @@ New instance of DetherJS
 const addr = '0xab5801a7d398351b8be11c439e05c5b3259aec9b';
 
 try {
-  cont teller = await detherjs.getTeller(addr)
+  const teller = await detherjs.getTeller(addr)
 } catch () {
   console.log(e);
 }
