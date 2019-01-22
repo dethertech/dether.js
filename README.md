@@ -84,7 +84,7 @@ DEPLOY_PRIVKEY=<private key from step 1, prefixed with 0x>
 ## Example
 
 ```
-yarn run example
+yarn run example1
 ```
 
 ## Dependencies
