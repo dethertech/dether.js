@@ -135,8 +135,8 @@ You can specify a zone to get all the tellers presents in this zone
 
 ```Javascript
 const opts = {
-    countryId = 'CZ', // DE for Czech republic
-    postalCode = '170 00'
+    countryId: 'CZ', // CZ for Czech republic
+    postalCode: '170 00'
 };
 
 try {
