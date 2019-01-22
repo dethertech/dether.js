@@ -2,11 +2,6 @@
 
 const DetherJS = require("../src/index");
 
-const web3Abi = require("web3-eth-abi");
-const Web3 = require("web3");
-const SignerProvider = require("ethjs-provider-signer");
-const sign = require("ethjs-signer").sign;
-
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
