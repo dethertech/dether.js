@@ -33,7 +33,7 @@ Extensive documentation of all the methods can be found on the [API documentatio
 
 ## Usage
 
-You can find more examples of method usage in [examples/usage.js](https://github.com/dethertech/dether.js/blob/master/examples/usage.js)
+You can find more examples of method usage in [examples/](https://github.com/dethertech/dether.js/blob/master/examples/)
 
 ## Test
 
