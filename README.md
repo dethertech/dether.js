@@ -87,13 +87,6 @@ DEPLOY_PRIVKEY=<private key from step 1, prefixed with 0x>
 yarn run example
 ```
 
-## Build doc
-
-```
-yarn run esdoc
-yarn run publish:esdoc
-```
-
 ## Dependencies
 
 - [dethercontract](https://github.com/dethertech/dethercontracts.git)
