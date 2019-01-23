@@ -6,6 +6,7 @@
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "example1": "npm run babel-node -- examples/getInfoFromZone.js",
+    "example2": "npm run babel-node -- examples/requestVerifAndAddTeller.js",
     "test": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.test.js test/specs/**/*.test.js --timeout 15000",
     "test-onchain": "nyc --reporter=html mocha --compilers js:babel-core/register test/test.config.js test/specs/*.onchain.js --timeout 0",
     "prepublish": "babel src --out-dir lib --copy-files",
@@ -45,6 +46,7 @@
     "xhr-request": "^1.1.0"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
