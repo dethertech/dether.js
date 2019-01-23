@@ -24,7 +24,7 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   // Get all teller present in an area (Country and postal code)
   let opts = {
-    countryId: "DE", // CZ for Czech republic
+    countryId: "DE", // DE for Germany
     postalCode: "81475" // postal code
   };
 
