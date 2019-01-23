@@ -17,9 +17,8 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   const network = "kovan";
 
   // info address
-  const privateKeyMaster =
-    "0xd47e5c9cd0dec488a01c077e153b4e58e89cf66fcaf97d1c3b9674e562204b4c";
-  const phoneNumber = "+447520670601"; // phone to verify
+  const privateKeyMaster = "PRIV_KEY";
+  const phoneNumber = "+447520010101"; // phone to verify
 
   // info Point of sales
   const tellerToAdd = {
