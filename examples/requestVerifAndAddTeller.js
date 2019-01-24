@@ -46,48 +46,6 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   const detherUser = await dether.getUser(encryptedWallet);
   userWallet.provider = dether.provider;
 
-  /*
-   * before being able to add your teller inside the contract you need to request a phone number verification
-   * from a verifier delegat (Dether is currently the only delegate)
-   */
-
-  // request a dether number verification to enable adding this ETH address as a seller on the map
-  // BE phone number format
-  const ethAddress = userWallet.address; // eth address to verify
-
-  const apiUrl = `https://kyc-${network}.herokuapp.com`;
-  let res;
-  console.log("REQUEST CODE POST");
-
-  try {
-    res = await axios.post(`${apiUrl}/sms`, {
-      phoneNumber,
-      ethAddress,
-      type: "TELLER"
-    });
-    console.log("res data", res);
-  } catch (e) {
-    console.log("error", e.response.data);
-  }
-
-  // once you get the code on the phone, you need to POST it on the API
-  const code = "4242"; // in kovan its the same code everytime
-  console.log("SEND VERIF CODE");
-  try {
-    res = await axios.post(`${apiUrl}/sms/verif`, {
-      phoneNumber,
-      code,
-      type: "TELLER"
-    });
-    console.log("res data", res);
-  } catch (e) {
-    console.log("error", e.response.data);
-  }
-
-  // verify that the address is certified inside the smart contract
-  await delay(3000); // you may need to wait a bit before its mined
-
-  console.log(await dether.isCertified(ethAddress));
 
   /*
    * Now you can add teller inside the contract, for doing so you'll need some DTH
