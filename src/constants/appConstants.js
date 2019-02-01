@@ -9,6 +9,7 @@ export const TICKER = {
     MKR: "0x0000000000000000000000000000000000000000",
     OMG: "0x0000000000000000000000000000000000000000",
     ZRX: "0x0000000000000000000000000000000000000000",
+    KNC: '0xB2f3dD487708ca7794f633D9Df57Fdb9347a7afF',
     ETH: "0xd0A1E359811322d97991E03f863a0C30C2cF029C" // WETH
   },
   ropsten: {
@@ -114,7 +115,8 @@ export const EXCHANGE_CONTRACTS = {
     oasisDirectProxy: "0xe635f5f52220a114fea0985abf7ec8144710507b",
     dsProxyFactory: "0x93ffc328d601c4c5e9cc3c8d257e9afdaf5b0ac0",
     makerProxyRegistry: "0x383a7fc29edde64aec7f776e2517ec8819e147f1",
-    makerOtc: "0x8cf1Cab422A0b6b554077A361f8419cDf122a9F9"
+    makerOtc: "0x8cf1Cab422A0b6b554077A361f8419cDf122a9F9",
+    kyberNetworkProxy: '0x7e6b8b9510D71BF8EF0f893902EbB9C865eEF4Df',
   },
   ropsten: {
     // Mkr/Oasis is not on ropsten
