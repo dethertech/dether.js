@@ -539,6 +539,17 @@ class DetherUser {
       this.dether.provider,
       opts.ticker
     );
+    // const calltsx = await kyberNetworkProxyContract.trade.call(
+    //   "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // ERC20(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee) OK
+    //   Ethers.utils.parseEther(amount.toString()), // OK
+    //   buyTokenAddr, //ERC20 destToken OK
+    //   opts.receiver, //address destAddress
+    //   Ethers.utils.bigNumberify(10).pow(28), //uint maxDestAmount
+    //   // Ethers.utils.bigNumberify(opts.buyRate), //uint minConversionRate
+    //   opts.buyRate, //uint minConversionRate
+    //   "0x0000000000000000000000000000000000000000" //uint walletId
+    // );
+    // console.log('call tsx', calltsx);
     const transaction = await kyberNetworkProxyContract.trade(
       "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // ERC20(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee) OK
       Ethers.utils.parseEther(amount.toString()), // OK
@@ -551,18 +562,57 @@ class DetherUser {
     );
     console.log("tsx final -> \n", transaction);
     // create a refund tsx to the gas who is not used by the account.
-    const gasToRefund = Ethers.utils.bigNumberify(opts.gasPrice).mul(70000);
-    const refundTsx = await tempWallet.sendTransaction({
-      to: opts.refundAddress,
-      value: gasToRefund,
-      gasLimit: 23000,
+    // const gasToRefund = Ethers.utils.bigNumberify(opts.gasPrice).mul(70000);
+    // const refundTsx = await tempWallet.sendTransaction({
+    //   to: opts.refundAddress,
+    //   value: gasToRefund,
+    //   gasLimit: 23000,
+    //   nonce: 1,
+    //   gasPrice: opts.gasPrice
+    //     ? Ethers.utils.bigNumberify(opts.gasPrice)
+    //     : Ethers.utils.bigNumberify("20000000000")
+    // });
+    // console.log('refund tsx', refundTsx)
+    return transaction.hash;
+  }
+
+  /**
+ * Delete sell point, this function withdraw automatically balance escrow to owner and delete all info
+ * @param  {string} password  Wallet password
+ * @param  {string}  opts.refundAddress original teller ethereum address
+ * @param  {obj}     opts.privKey privkey temp swap wallet
+ * @param {number} opts.gasPrice  gasprice you want to use in the tsx in WEI ex: 20000000000 for 20 GWEI
+ * @return {Promise<object>}  Transaction
+ */
+  async postSellTokenRefund(opts, password) {
+
+    const { refundAddress, privKey } = opts;
+
+    // rebuild the wallet
+    const tempWallet = new Ethers.Wallet(privKey);
+    tempWallet.provider = this.dether.provider;
+
+    const toRefund = await this.dether.provider.getBalance(tempWallet.address)
+
+    const toSend = Ethers.utils.bigNumberify(opts.gasPrice).mul(22100);
+
+    const finalValue = Ethers.utils.bigNumberify(toRefund).sub(toSend);
+
+    const tsx = await tempWallet.sendTransaction({
+      to: refundAddress,
+      // value: Ethers.utils.parseEther(toSend)
+      value: finalValue,
+      gasLimit: 22000,
       nonce: 1,
       gasPrice: opts.gasPrice
         ? Ethers.utils.bigNumberify(opts.gasPrice)
         : Ethers.utils.bigNumberify("20000000000")
     });
-    return transaction.hash;
+    return tsx.hash;
   }
+
+
+
 
   /**
    * Delete sell point, this function withdraw automatically balance escrow to owner and delete all info
