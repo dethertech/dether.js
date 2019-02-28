@@ -1,6 +1,6 @@
 {
   "name": "detherjs",
-  "version": "4.2.7",
+  "version": "4.2.9",
   "description": "Dether SDK to easily call smart contract from Javascript",
   "main": "lib/index.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "simple-crypto-js": "^1.1.1",
     "utf8": "^2.1.2",
     "uuid": "^3.2.1",
-    "web3-eth-abi": "^1.0.0-beta.46",
+    "web3-eth-abi": "1.0.0-beta.33",
     "ws": "^5.2.0",
     "xhr-request": "^1.1.0"
   },
