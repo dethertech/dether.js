@@ -452,7 +452,6 @@ class DetherUser {
     const tempWallet = new Ethers.Wallet.createRandom();
     tempWallet.provider = this.dether.provider;
     // const encryptedTempWallet = await tempWallet.encrypt(password);
-    console.log("\ntemp wallet created", tempWallet);
     // get the nonce to be able to send 2 tsx in same time
     const _nonce = await wallet.provider.getTransactionCount(wallet.address);
     // send enough gas to the temp wallet to be able to send the token to receiver
@@ -488,9 +487,7 @@ class DetherUser {
       add0x(tempWallet.address),
       Ethers.utils.parseEther(amount.toString())
     );
-    console.log("sell ETH function to the temp wallet\n", tsx2);
-    // return the hash to wait the end of the tsx in the front end
-    // return the privKey of the temp wallet to do the swap inside
+
     const ret = {
       hash: tsx2.hash,
       privKey: tempWallet.privateKey
@@ -520,12 +517,7 @@ class DetherUser {
     // rebuild the wallet
     const tempWallet = new Ethers.Wallet(privKey);
     tempWallet.provider = this.dether.provider;
-    console.log("priv key", tempWallet);
-    // PART 2
-    // kyber swap from temp wallet to receiver
-    console.log("start to create the swap");
 
-    console.log("build the contract", tempWallet);
     const kyberNetworkProxyContract = ExternalContracts.getKyberNetworkProxyContractToSend(
       {
         wallet: tempWallet,
@@ -539,17 +531,7 @@ class DetherUser {
       this.dether.provider,
       opts.ticker
     );
-    // const calltsx = await kyberNetworkProxyContract.trade.call(
-    //   "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // ERC20(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee) OK
-    //   Ethers.utils.parseEther(amount.toString()), // OK
-    //   buyTokenAddr, //ERC20 destToken OK
-    //   opts.receiver, //address destAddress
-    //   Ethers.utils.bigNumberify(10).pow(28), //uint maxDestAmount
-    //   // Ethers.utils.bigNumberify(opts.buyRate), //uint minConversionRate
-    //   opts.buyRate, //uint minConversionRate
-    //   "0x0000000000000000000000000000000000000000" //uint walletId
-    // );
-    // console.log('call tsx', calltsx);
+
     const transaction = await kyberNetworkProxyContract.trade(
       "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // ERC20(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee) OK
       Ethers.utils.parseEther(amount.toString()), // OK
@@ -560,19 +542,7 @@ class DetherUser {
       opts.buyRate, //uint minConversionRate
       "0x0000000000000000000000000000000000000000" //uint walletId
     );
-    console.log("tsx final -> \n", transaction);
-    // create a refund tsx to the gas who is not used by the account.
-    // const gasToRefund = Ethers.utils.bigNumberify(opts.gasPrice).mul(70000);
-    // const refundTsx = await tempWallet.sendTransaction({
-    //   to: opts.refundAddress,
-    //   value: gasToRefund,
-    //   gasLimit: 23000,
-    //   nonce: 1,
-    //   gasPrice: opts.gasPrice
-    //     ? Ethers.utils.bigNumberify(opts.gasPrice)
-    //     : Ethers.utils.bigNumberify("20000000000")
-    // });
-    // console.log('refund tsx', refundTsx)
+
     return transaction.hash;
   }
 
@@ -610,9 +580,6 @@ class DetherUser {
     });
     return tsx.hash;
   }
-
-
-
 
   /**
    * Delete sell point, this function withdraw automatically balance escrow to owner and delete all info
