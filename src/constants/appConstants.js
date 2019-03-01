@@ -9,6 +9,7 @@ export const TICKER = {
     MKR: "0x0000000000000000000000000000000000000000",
     OMG: "0x0000000000000000000000000000000000000000",
     ZRX: "0x0000000000000000000000000000000000000000",
+    KNC: '0xB2f3dD487708ca7794f633D9Df57Fdb9347a7afF',
     ETH: "0xd0A1E359811322d97991E03f863a0C30C2cF029C" // WETH
   },
   ropsten: {
@@ -71,7 +72,7 @@ export const TICKER = {
     DROP: "0x4672bad527107471cb5067a887f4656d585a8a31",
     DGTX: "0x1c83501478f1320977047008496dacbd60bb15ef",
     PAY: "0xB97048628DB6B661D4C2aA833e95Dbe1A905B280",
-    SWT: "0xB9e7F8568e08d5659f5D29C4997173d84CdF2607",
+    SWT: "0xb9e7f8568e08d5659f5d29c4997173d84cdf2607",
     KNC: "0xdd974D5C2e2928deA5F71b9825b8b646686BD200"
   }
 };
@@ -95,7 +96,7 @@ export const ALLOWED_EXCHANGE_PAIRS = [
   { pair: "ETH-MANA", exchange: "kyber" },
   { pair: "ETH-ELF", exchange: "kyber" },
   { pair: "ETH-POLY", exchange: "kyber" },
-  { pair: "ETH-LINK", exchange: "kyber" },
+  { pair: "ETH-PAY", exchange: "kyber" },
   { pair: "ETH-KNC", exchange: "kyber" }
 ];
 
@@ -114,7 +115,8 @@ export const EXCHANGE_CONTRACTS = {
     oasisDirectProxy: "0xe635f5f52220a114fea0985abf7ec8144710507b",
     dsProxyFactory: "0x93ffc328d601c4c5e9cc3c8d257e9afdaf5b0ac0",
     makerProxyRegistry: "0x383a7fc29edde64aec7f776e2517ec8819e147f1",
-    makerOtc: "0x8cf1Cab422A0b6b554077A361f8419cDf122a9F9"
+    makerOtc: "0x8cf1Cab422A0b6b554077A361f8419cDf122a9F9",
+    kyberNetworkProxy: '0x7e6b8b9510D71BF8EF0f893902EbB9C865eEF4Df',
   },
   ropsten: {
     // Mkr/Oasis is not on ropsten
