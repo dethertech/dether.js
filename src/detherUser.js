@@ -440,14 +440,12 @@ class DetherUser {
       console.log("Kyber enabled = ", networkEnabled);
       throw new TypeError("Trade not available for the moment.");
     }
-
     // // check if we dont have surpass gasmax
     let maxGasPrice = await kyberNetworkProxyContractRead.maxGasPrice();
     if (Ethers.utils.bigNumberify(maxGasPrice).lt(opts.gasPrice)) {
       console.log("Gas price is too high. Retry with less");
       throw new TypeError("Gas price is too high. Retry with less");
     }
-
     // create swap temp wallet
     const tempWallet = new Ethers.Wallet.createRandom();
     tempWallet.provider = this.dether.provider;
@@ -457,7 +455,11 @@ class DetherUser {
     // send enough gas to the temp wallet to be able to send the token to receiver
     // const toSend = "0.01"; // this value should be the amount needed for the gas payment required, need 300000
     const toSendForGas = Ethers.utils.bigNumberify(opts.gasPrice).mul(380000);
-    const totalAmount = Number(Ethers.utils.formatEther(toSendForGas)) + amount;
+    const totalAmount = Number(Ethers.utils.formatEther(toSendForGas)) + Number(amount);
+    // console.log('toSendForGas', typeof toSendForGas, toSendForGas);
+    // console.log('amount', typeof amount, amount);
+    // console.log('Number(Ethers.utils.formatEther(toSendForGas))', typeof Number(Ethers.utils.formatEther(toSendForGas)), Number(Ethers.utils.formatEther(toSendForGas)));
+    // console.log('totalAmount', typeof totalAmount, totalAmount);
 
     const customContract = await Contracts.getCustomContract({
       wallet,
@@ -469,12 +471,10 @@ class DetherUser {
       gasLimit: 300000,
       nonce: _nonce,
     });
-
     const tsx2 = await customContract.sellEth(
       add0x(tempWallet.address),
       Ethers.utils.parseEther(totalAmount.toString())
     );
-
     const ret = {
       hash: tsx2.hash,
       privKey: tempWallet.privateKey
