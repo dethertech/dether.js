@@ -456,22 +456,9 @@ class DetherUser {
     const _nonce = await wallet.provider.getTransactionCount(wallet.address);
     // send enough gas to the temp wallet to be able to send the token to receiver
     // const toSend = "0.01"; // this value should be the amount needed for the gas payment required, need 300000
-    const toSend = Ethers.utils.bigNumberify(opts.gasPrice).mul(380000);
-    const tsx1 = await wallet.sendTransaction({
-      to: tempWallet.address,
-      // value: Ethers.utils.parseEther(toSend)
-      value: toSend,
-      gasLimit: 25000,
-      gasPrice: opts.gasPrice
-        ? Ethers.utils.bigNumberify(opts.gasPrice)
-        : Ethers.utils.bigNumberify("20000000000")
-    });
-    console.log(
-      "\n----\nsend ETH for gas to the temp wallet",
-      tsx1,
-      "\n----\n"
-    );
-    // sell ETH from contract to swap temp address
+    const toSendForGas = Ethers.utils.bigNumberify(opts.gasPrice).mul(380000);
+    const totalAmount = Number(Ethers.utils.formatEther(toSendForGas)) + amount;
+
     const customContract = await Contracts.getCustomContract({
       wallet,
       password,
@@ -480,12 +467,12 @@ class DetherUser {
         ? Ethers.utils.bigNumberify(opts.gasPrice)
         : Ethers.utils.bigNumberify("20000000000"),
       gasLimit: 300000,
-      nonce: _nonce + 1
+      nonce: _nonce,
     });
 
     const tsx2 = await customContract.sellEth(
       add0x(tempWallet.address),
-      Ethers.utils.parseEther(amount.toString())
+      Ethers.utils.parseEther(totalAmount.toString())
     );
 
     const ret = {
@@ -538,7 +525,6 @@ class DetherUser {
       buyTokenAddr, //ERC20 destToken OK
       opts.receiver, //address destAddress
       Ethers.utils.bigNumberify(10).pow(28), //uint maxDestAmount
-      // Ethers.utils.bigNumberify(opts.buyRate), //uint minConversionRate
       opts.buyRate, //uint minConversionRate
       "0x0000000000000000000000000000000000000000" //uint walletId
     );
